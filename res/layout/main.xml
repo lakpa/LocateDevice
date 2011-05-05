@@ -2,10 +2,48 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:padding="5px">
+	
 	<Button android:id="@+id/scan" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:text="Scan device"
-		android:paddingTop="15px"/>
+		android:width="110px"
+	/>
+
+	<Button android:id="@+id/sync" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="DB Sync" android:layout_alignParentRight="true"
+		android:width="110px"
+	/>
+	
+	<Button android:id="@+id/findPosition" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="Find position" 
+		 android:layout_below="@id/scan"/>
+		 
+	<Button android:id="@+id/showLocalDB" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="Show DB" android:width="110px"
+		 android:layout_alignParentRight="true" android:layout_below="@id/sync"/>
+		 	 
+	<TextView android:id="@+id/labelRadio" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_below= "@id/findPosition" 
+		android:text="Remote Server" android:paddingTop="13px" android:layout_marginRight="10px"
+		android:textSize="17px"
+		 />
+		 
+	<RadioGroup android:id="@+id/radioGroup" android:orientation="horizontal" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_toRightOf="@id/labelRadio"
+		android:layout_alignTop="@id/labelRadio">
+		<RadioButton android:id="@+id/rd_enable" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="Enable"/>
+		<RadioButton android:id="@+id/rd_Disable" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="Disable"/>
+	</RadioGroup>
+	 
 	<ListView android:id="@+id/new_devices" android:layout_width="match_parent"
-		android:layout_height="wrap_content" android:stackFromBottom="true"
-		android:layout_weight="2" android:layout_below="@id/scan"/>
+		android:layout_height="195px" android:stackFromBottom="false"
+		android:layout_below="@id/labelRadio" android:paddingTop="20px"/>
+		
+	<TextView android:id="@+id/locationInfoView" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_below= "@id/new_devices" 
+		android:text="Location Information here" android:paddingTop="10px" android:textSize="20px"
+		android:textColor="#ffff00"
+		 />
+		
 </RelativeLayout>

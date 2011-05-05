@@ -23,7 +23,7 @@ public class MapsActivity extends MapActivity {
         setContentView(R.layout.map);
 
         mapView = (MapView) findViewById(R.id.map);
-        mapView.setStreetView(true);
+//        mapView.setStreetView(true);
 //        mapView.setBuiltInZoomControls(true);
         MapController mapController = mapView.getController();
         Bundle extras = getIntent().getExtras();
