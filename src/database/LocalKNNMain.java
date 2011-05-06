@@ -10,6 +10,7 @@ public class LocalKNNMain {
 
 	private List<KNNModel> knnList = null;
 	private List<Integer> assignedRank = null;
+	private String highestClassification = "";
 	public List<KNNModel> getKnnList() {
 		return knnList;
 	}
@@ -34,6 +35,11 @@ public class LocalKNNMain {
 		int nearTC354 = 0, inTC357 = 0, inTC364 = 0, nearTC360 = 0, nearTC357 = 0;
 		for (int i = 0; i < knnList.size(); i++) {
 			if (knnList.get(i).getRank() <= k) {
+				
+				if (knnList.get(i).getRank() == 1)
+					highestClassification = knnList.get(i).getClassification();
+				
+				
 				if (knnList.get(i).getClassification().equals("In TC364")) {
 					inTC364++;
 				} else if (knnList.get(i).getClassification().equals("In TC357")){
@@ -52,7 +58,8 @@ public class LocalKNNMain {
 		printList(knnList);
 		int a[] = {nearTC354,inTC357,inTC364,nearTC360,nearTC357};
 		int index = findGreatest(a);
-		switch(index) {
+		if (index != -1) {
+			switch (index) {
 			case 0:
 				category = "Near TC354";
 				break;
@@ -68,23 +75,36 @@ public class LocalKNNMain {
 			case 4:
 				category = "Near TC357";
 				break;
+			}
+		} else {
+			if (!highestClassification.equals("")) {
+				return highestClassification;
+			}
 		}
+		
 		return category;
 	}
 	
 	
 	public int findGreatest(int...val) {
 		int largest = val[0];
+		boolean isLargest = false;
 		int index = 0;
-		for(int i=0; i<val.length; i++) {
+		for (int i = 0; i < val.length; i++) {
 			if (i != 0) {
 				if (val[i] > largest) {
-					largest = val[i];
-					index = i;
+					if (val[i] > 1) {	
+						largest = val[i];
+						index = i;
+						isLargest = true;
+					}
 				}
 			}
 		}
-		return index;
+		if (isLargest)
+			return index;
+		else 
+			return -1;
 	}
 
 	private void printList(List<KNNModel> knnList) {

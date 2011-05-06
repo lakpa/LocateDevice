@@ -217,11 +217,11 @@ public class Main extends SignalStrengthActivity {
 
 	private void staticData() {
 		// Remove it
-		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("67",
+		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("47",
 		"00:19:0E:08:08:B7")); // room1
-		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("60",
+		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("56",
 				"00:19:0E:08:04:EA")); // room2
-		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("62",
+		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("54",
 				"00:19:0E:08:06:F6")); // room3
 	}
 
