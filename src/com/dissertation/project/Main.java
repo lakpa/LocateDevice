@@ -101,14 +101,6 @@ public class Main extends SignalStrengthActivity {
 
 		bluetoothDeviceInfoList = new ArrayList<BluetoothDeviceModel>();
 
-		// Remove it
-//		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("56",
-//				"00:19:0E:08:04:EA"));
-//		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("51",
-//				"00:19:0E:08:08:B7")); // room2
-//		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("56",
-//				"00:19:0E:08:06:F6")); // room3
-
 		// If the adapter is null, then Bluetooth is not supported
 		if (mBtAdapter == null) {
 			Toast.makeText(this, "Bluetooth is not available",
@@ -164,7 +156,8 @@ public class Main extends SignalStrengthActivity {
 
 			public void onClick(View arg0) {
 				locationInfoView.setText("");
-
+				getBluetoothDeviceInfoList().clear();
+				staticData();
 				// check which radio button is enable
 				if (isServerRadiobuttonEnabled()) {
 					callLocationFinderService(getBluetoothDeviceInfoList(),
@@ -172,6 +165,7 @@ public class Main extends SignalStrengthActivity {
 				} else {
 					callLocalDB(arg0);
 				}
+//				
 			}
 		});
 
@@ -180,9 +174,9 @@ public class Main extends SignalStrengthActivity {
 
 			public void onClick(View arg0) {
 
-//				progressDialog = ProgressDialog.show(arg0.getContext(),
-//						"Database Syncronization",
-//						"Database Synchronizing....please wait");
+				progressDialog = ProgressDialog.show(arg0.getContext(),
+						"Database Syncronization",
+						"Database Synchronizing....please wait");
 				callLocationFinderService(null,
 						String.valueOf(getLatestUpdateDate()), Main.this,
 						serviceUri + "/databaseSync", true);
@@ -219,6 +213,16 @@ public class Main extends SignalStrengthActivity {
 				}
 			}
 		});
+	}
+
+	private void staticData() {
+		// Remove it
+		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("67",
+		"00:19:0E:08:08:B7")); // room1
+		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("60",
+				"00:19:0E:08:04:EA")); // room2
+		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("62",
+				"00:19:0E:08:06:F6")); // room3
 	}
 
 	private DialogInterface.OnClickListener dialogOnClickListner = new DialogInterface.OnClickListener() {
@@ -307,11 +311,11 @@ public class Main extends SignalStrengthActivity {
 		} else {
 			int rec_count = dbSynchronized(info);
 			if (rec_count > 0) {
-//				progressDialog.dismiss();
+				progressDialog.dismiss();
 				Toast.makeText(this, rec_count + " record updated",
 						Toast.LENGTH_LONG).show();
 			} else {
-//				progressDialog.dismiss();
+				progressDialog.dismiss();
 				Toast.makeText(this, "Data is up to date", Toast.LENGTH_LONG)
 						.show();
 			}
@@ -325,12 +329,12 @@ public class Main extends SignalStrengthActivity {
 		if (bluetoothDeviceInfoList.size() == 3) {
 			for (int i = 0; i < bluetoothDeviceInfoList.size(); i++) {
 				if (bluetoothDeviceInfoList.get(i).getMacAddress()
-						.equals("00:19:0E:08:04:EA")) {
-					km.setRoom2(Integer.parseInt(bluetoothDeviceInfoList.get(i)
-							.getSignalStrength()));
-				} else if (bluetoothDeviceInfoList.get(i).getMacAddress()
 						.equals("00:19:0E:08:08:B7")) {
 					km.setRoom1(Integer.parseInt(bluetoothDeviceInfoList.get(i)
+							.getSignalStrength()));
+				} else if (bluetoothDeviceInfoList.get(i).getMacAddress()
+						.equals("00:19:0E:08:04:EA")) {
+					km.setRoom2(Integer.parseInt(bluetoothDeviceInfoList.get(i)
 							.getSignalStrength()));
 				} else if (bluetoothDeviceInfoList.get(i).getMacAddress()
 						.equals("00:19:0E:08:06:F6")) {
@@ -446,8 +450,8 @@ public class Main extends SignalStrengthActivity {
 		if (mBtAdapter.startDiscovery()) {
 			// now = new Date();
 			// startingTime = calculateTime(now);
-//			progressDialog = ProgressDialog.show(this, "Device scan",
-//					"Scanning device....please wait!");
+			progressDialog = ProgressDialog.show(this, "Device scan",
+					"Scanning device....please wait!");
 			scanButton.setEnabled(false);
 		}
 	}
@@ -540,7 +544,7 @@ public class Main extends SignalStrengthActivity {
 				}
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED
 					.equals(action)) {
-//				progressDialog.dismiss();
+				progressDialog.dismiss();
 				if (mNewDevicesArrayAdapter.getCount() != 0) {
 					// scanFinishTime = calculateTime(new Date());
 					// createLogFile(mNewDevicesArrayAdapter);
