@@ -156,8 +156,8 @@ public class Main extends SignalStrengthActivity {
 
 			public void onClick(View arg0) {
 				locationInfoView.setText("");
-				getBluetoothDeviceInfoList().clear();
-				staticData();
+//				getBluetoothDeviceInfoList().clear();
+//				staticData();
 				// check which radio button is enable
 				if (isServerRadiobuttonEnabled()) {
 					callLocationFinderService(getBluetoothDeviceInfoList(),
@@ -182,7 +182,7 @@ public class Main extends SignalStrengthActivity {
 						serviceUri + "/databaseSync", true);
 			}
 		});
-
+		
 		showLocalDBButton = (Button) findViewById(R.id.showLocalDB);
 		showLocalDBButton.setOnClickListener(new OnClickListener() {
 
@@ -195,7 +195,6 @@ public class Main extends SignalStrengthActivity {
 		scanButton.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
-				// newDevicesListView.clearChoices();
 				if (mBtAdapter.isEnabled()) {
 					locationInfoView.setText("");
 					mNewDevicesArrayAdapter.clear();
@@ -215,15 +214,15 @@ public class Main extends SignalStrengthActivity {
 		});
 	}
 
-	private void staticData() {
-		// Remove it
-		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("47",
-		"00:19:0E:08:08:B7")); // room1
-		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("56",
-				"00:19:0E:08:04:EA")); // room2
-		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("54",
-				"00:19:0E:08:06:F6")); // room3
-	}
+//	private void staticData() {
+//		// Remove it
+//		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("48",
+//		"00:19:0E:08:08:B7")); // room1
+//		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("51",
+//				"00:19:0E:08:04:EA")); // room2
+//		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("71",
+//				"00:19:0E:08:06:F6")); // room3
+//	}
 
 	private DialogInterface.OnClickListener dialogOnClickListner = new DialogInterface.OnClickListener() {
 
@@ -257,6 +256,39 @@ public class Main extends SignalStrengthActivity {
 		return true;
 	}
 
+//	private void showInputDialog() {
+//		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+//
+//		alert.setTitle("Title");
+//		alert.setMessage("Message");
+//
+//		// Set an EditText view to get user input 
+//		final EditText inputAP1 = new EditText(this);
+//		alert.setView(inputAP1);
+//		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//		public void onClick(DialogInterface dialog, int whichButton) {
+//		  String value = inputAP1.getText().toString();
+//		  String[] s = value.split(" ");
+//		  if (s.length == 3) {
+//			  bluetoothDeviceInfoList.add(new BluetoothDeviceModel(s[0],
+//				"00:19:0E:08:08:B7")); // room1
+//			  bluetoothDeviceInfoList.add(new BluetoothDeviceModel(s[1],
+//						"00:19:0E:08:04:EA")); // room2
+//		      bluetoothDeviceInfoList.add(new BluetoothDeviceModel(s[2],
+//						"00:19:0E:08:06:F6")); //
+//		  }
+//		  }
+//		});
+//
+//		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//		  public void onClick(DialogInterface dialog, int whichButton) {
+//		    return;
+//		  }
+//		});
+//
+//		alert.show();
+//		
+//	}
 	private String[] getCoordinate(String val) {
 		String[] rtVal = new String[2];
 		String[] address = val.split(" ");
