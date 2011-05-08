@@ -6,24 +6,55 @@ import java.util.List;
 
 import support.KNNModel;
 
+/**
+ * @author lakpa
+ * The Class LocalKNNMain.
+ */
 public class LocalKNNMain {
 
+	/** The knn list. */
 	private List<KNNModel> knnList = null;
+	
+	/** The assigned rank. */
 	private List<Integer> assignedRank = null;
+	
+	/** The highest classification. */
 	private String highestClassification = "";
+	
+	/**
+	 * Gets the knn list.
+	 *
+	 * @return the knn list
+	 */
 	public List<KNNModel> getKnnList() {
 		return knnList;
 	}
 
+	/**
+	 * Sets the knn list.
+	 *
+	 * @param knnList the new knn list
+	 */
 	public void setKnnList(List<KNNModel> knnList) {
 		this.knnList = knnList;
 	}
 
+	/**
+	 * Instantiates a new local knn main.
+	 */
 	public LocalKNNMain() {
 //		localDB = new KnnDatabaseActivity();
 		assignedRank = new ArrayList<Integer>();
 	}
 
+	/**
+	 * Classified query instance.
+	 *
+	 * @param knnModelList the knn model list
+	 * @param queryInstance the query instance
+	 * @param k the k
+	 * @return the string
+	 */
 	public String classifiedQueryInstance(List<KNNModel> knnModelList,
 			KNNModel queryInstance, int k) {
 		
@@ -86,6 +117,12 @@ public class LocalKNNMain {
 	}
 	
 	
+	/**
+	 * Find greatest.
+	 *
+	 * @param val the val
+	 * @return the int
+	 */
 	public int findGreatest(int...val) {
 		int largest = val[0];
 		boolean isLargest = false;
@@ -107,6 +144,11 @@ public class LocalKNNMain {
 			return -1;
 	}
 
+	/**
+	 * Prints the list.
+	 *
+	 * @param knnList the knn list
+	 */
 	private void printList(List<KNNModel> knnList) {
 		for (int i = 0; i < knnList.size(); i++) {
 			KNNModel model = knnList.get(i);
@@ -118,6 +160,13 @@ public class LocalKNNMain {
 		}
 	}
 
+	/**
+	 * Check included in neighbour list.
+	 *
+	 * @param km the km
+	 * @param k the k
+	 * @return the list
+	 */
 	private List<KNNModel> checkIncludedInNeighbourList(List<KNNModel> km, int k) {
 		for (int i = 0; i < km.size(); i++) {
 			if (km.get(i).getRank() <= k) {
@@ -127,6 +176,13 @@ public class LocalKNNMain {
 		return km;
 	}
 
+	/**
+	 * Sets the square distance.
+	 *
+	 * @param knnModelList the knn model list
+	 * @param queryInstance the query instance
+	 * @return the list
+	 */
 	private List<KNNModel> setSquareDistance(List<KNNModel> knnModelList,
 			KNNModel queryInstance) {
 		for (int i = 0; i < knnModelList.size(); i++) {
@@ -138,6 +194,12 @@ public class LocalKNNMain {
 		return knnModelList;
 	}
 
+	/**
+	 * Sets the rank.
+	 *
+	 * @param listModel the list model
+	 * @return the list
+	 */
 	private List<KNNModel> setRank(List<KNNModel> listModel) {
 		int[] intArray = sortedArray(listModel);
 		for (int i = 0; i < listModel.size(); i++) {
@@ -157,6 +219,12 @@ public class LocalKNNMain {
 		return listModel;
 	}
 	
+	/**
+	 * Checks if is duplicate.
+	 *
+	 * @param rank the rank
+	 * @return true, if is duplicate
+	 */
 	private boolean isDuplicate(int rank) {
 		for(int i=0; i<assignedRank.size(); i++) {
 			if (assignedRank.get(i).intValue() == rank)
@@ -165,6 +233,12 @@ public class LocalKNNMain {
 		return false;
 	}
 	
+	/**
+	 * Sorted array.
+	 *
+	 * @param list the list
+	 * @return the int[]
+	 */
 	private int[] sortedArray(List<KNNModel> list) {
 		int[] a = new int[list.size()];
 		for (int i = 0; i < list.size(); i++)
@@ -174,6 +248,13 @@ public class LocalKNNMain {
 	}
 
 	// return square distance between query string and training data
+	/**
+	 * Square distance.
+	 *
+	 * @param training the training
+	 * @param queryInstance the query instance
+	 * @return the int
+	 */
 	private int squareDistance(KNNModel training, KNNModel queryInstance) {
 		int room1, room2, room3 ;
 		room1 = (int) Math.pow((training.getRoom1() - queryInstance.getRoom1()), 2);

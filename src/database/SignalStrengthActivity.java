@@ -5,13 +5,17 @@ import android.os.Bundle;
 
 /**
  * @author lakpa
- *
+ * The Class SignalStrengthActivity.
  */
 public class SignalStrengthActivity extends Activity {
 
 	// Our application database
+	/** The m database. */
 	protected SignalStrengthDatabaseHelper mDatabase = null;
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -20,6 +24,9 @@ public class SignalStrengthActivity extends Activity {
 	
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onDestroy()
+	 */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

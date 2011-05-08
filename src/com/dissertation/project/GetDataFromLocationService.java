@@ -31,24 +31,64 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * The Class GetDataFromLocationService.
+ * @author lakpa
+ * @author Nazmul Idris
+ *
+ */
 public class GetDataFromLocationService {
+	
+	/** The service uri. */
 	private String serviceUri = "";
+	
+	/** The network connection timeout_ms. */
 	private int networkConnectionTimeout_ms = 500000;
-	private static Main activity;
+	
+	/** The activity. */
+	private Main activity;
+	
+	/** The data from servlet. */
 	private Hashtable<DataKeys, Serializable> dataFromServlet = null;
+	
+	/** The bluetooth device list. */
 	private List<BluetoothDeviceModel> bluetoothDeviceList = null;
+	
+	/** The latest updated date. */
 	private String latestUpdatedDate= "";
+	
+	/** The ex. */
 	private Exception ex;
+	
+	/** The is db sync. */
 	private boolean isDBSync = false;
+	
+	/** The hash map. */
 	private Hashtable<String, List<BluetoothDeviceModel>> hashMap = null;
+	
+	/** The hash map2. */
 	private Hashtable<String, String> hashMap2 = null;
 //	private Hashtable<String, List<KNNModel>> hashMap2 = null;
 //	private List<KNNModel> localDBList = null;
 	
-	public GetDataFromLocationService(String serviceUri, boolean isDBSync) {
+	/**
+ * Instantiates a new gets the data from location service.
+ *
+ * @param serviceUri the service uri
+ * @param isDBSync the is db sync
+ */
+public GetDataFromLocationService(String serviceUri, boolean isDBSync) {
 		this.serviceUri = serviceUri;
 		this.isDBSync = isDBSync;
 	}
+	
+	/**
+	 * Execute.
+	 *
+	 * @param bluetoothDeviceList the bluetooth device list
+	 * @param latestUpdatedDate the latest updated date
+	 * @param activity the activity
+	 */
 	public void execute(List<BluetoothDeviceModel> bluetoothDeviceList, String latestUpdatedDate, 
 			Main activity) {
 //		public void execute(List<BluetoothDeviceModel> bluetoothDeviceList, List<KNNModel> dbLocalList, 
@@ -85,6 +125,9 @@ public class GetDataFromLocationService {
 				Toast.LENGTH_LONG).show();
 	}
 	
+	/**
+	 * Display in ui.
+	 */
 	private void displayInUI() {
 
 		if (ex != null)
@@ -98,6 +141,9 @@ public class GetDataFromLocationService {
 			activity.setServiceData(dataFromServlet, true);
 	}
 
+	/**
+	 * Do in background post.
+	 */
 	private void doInBackgroundPost() {
 		Log.i(getClass().getSimpleName(), "start-background task");
 		

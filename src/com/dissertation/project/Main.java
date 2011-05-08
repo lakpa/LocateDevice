@@ -47,46 +47,104 @@ import database.LocalKNNMain;
 import database.SignalStrengthActivity;
 import database.SignalStrengthDatabase.SignalStrength;
 
+
 /**
- * @author lakpa
- * 
+ *@author lakpa
+ * The Class Main.
+ *
  */
+
 public class Main extends SignalStrengthActivity {
 
 	// Member fields
+	/** The m bt adapter. */
 	private BluetoothAdapter mBtAdapter = null;
+	
+	/** The m new devices array adapter. */
 	private ArrayAdapter<String> mNewDevicesArrayAdapter = null;
+	
+	/** The Constant TAG. */
 	private static final String TAG = "BluetoothChat";
+	
+	/** The Constant D. */
 	private static final boolean D = true;
+	
+	/** The Constant TOAST. */
 	public static final String TOAST = "toast";
+	
+	/** The Constant REQUEST_ENABLE_BT. */
 	private static final int REQUEST_ENABLE_BT = 2;
+	
+	/** The scan button. */
 	private Button scanButton = null;
+	
+	/** The find location button. */
 	private Button findLocationButton = null;
+	
+	/** The sync button. */
 	private Button syncButton = null;
+	
+	/** The new devices list view. */
 	private ListView newDevicesListView = null;
+	
 	// private Date now = null;
 	// private String startingTime = "";
 	// private String scanFinishTime = "";
-//	private int fileNumber = 0;
+	// private int fileNumber = 0;
+	
+	/** The progress dialog. */
 	private ProgressDialog progressDialog = null;
+	
+	/** The rssi value. */
 	private short rssiValue = 0;
+	
+	/** The Constant DEBUG_TAG. */
 	private static final String DEBUG_TAG = "Logging: ";
+	
+	/** The location info view. */
 	private TextView locationInfoView = null;
-	// private Button resetButton = null;
+	
+	/** The bluetooth device info list. */
 	private List<BluetoothDeviceModel> bluetoothDeviceInfoList = null;
+	
+	/** The db. */
 	private SQLiteDatabase db = null;
+	
+	/** The local db list. */
 	private List<KNNModel> localDBList = null;
+	
+	/** The km. */
 	private KNNModel kModel = null, km = null;
+	
+	/** The Constant serviceUri. */
 	private static final String serviceUri = "http://192.168.1.5:8080/LocationService";
+	
+	/** The query builder. */
 	private SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+	
+	/** The sync db list. */
 	private List<KNNModel> syncDBList = null;
+	
+	/** The group. */
 	private RadioGroup group = null;
+	
+	/** The selected radiobutton id. */
 	private int selectedRadiobuttonId = 0;
+	
+	/** The show local db button. */
 	private Button showLocalDBButton = null;
-	private Vibrator vibrate = null;
+	
+	/** The vibrator. */
+	private Vibrator vibrator = null;
+	
+	/** The milliseconds. */
 	private static long milliseconds = 1000;
 
-	/** Called when the activity is first created. */
+	/**
+	 * Called when the activity is first created.
+	 *
+	 * @param savedInstanceState the saved instance state
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.i(DEBUG_TAG, "Starting onCreate method");
@@ -94,7 +152,7 @@ public class Main extends SignalStrengthActivity {
 		setContentView(R.layout.main);
 
 		// get Device Vibrator
-		vibrate = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
 		// Get the local Bluetooth adapter
 		mBtAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -157,7 +215,7 @@ public class Main extends SignalStrengthActivity {
 			public void onClick(View arg0) {
 				locationInfoView.setText("");
 //				getBluetoothDeviceInfoList().clear();
-//				staticData();
+				staticData();
 				// check which radio button is enable
 				if (isServerRadiobuttonEnabled()) {
 					callLocationFinderService(getBluetoothDeviceInfoList(),
@@ -165,7 +223,6 @@ public class Main extends SignalStrengthActivity {
 				} else {
 					callLocalDB(arg0);
 				}
-//				
 			}
 		});
 
@@ -214,16 +271,20 @@ public class Main extends SignalStrengthActivity {
 		});
 	}
 
-//	private void staticData() {
-//		// Remove it
-//		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("48",
-//		"00:19:0E:08:08:B7")); // room1
-//		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("51",
-//				"00:19:0E:08:04:EA")); // room2
-//		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("71",
-//				"00:19:0E:08:06:F6")); // room3
-//	}
+	/**
+	 * Static data.
+	 */
+	private void staticData() {
+		// Remove it
+		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("62",
+		"00:19:0E:08:08:B7")); // room1
+		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("48",
+				"00:19:0E:08:04:EA")); // room2
+		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("56",
+				"00:19:0E:08:06:F6")); // room3
+	}
 
+	/** The dialog on click listner. */
 	private DialogInterface.OnClickListener dialogOnClickListner = new DialogInterface.OnClickListener() {
 
 		public void onClick(DialogInterface dialog, int which) {
@@ -232,6 +293,13 @@ public class Main extends SignalStrengthActivity {
 		}
 	};
 
+	/**
+	 * Call activity.
+	 *
+	 * @param ct the ct
+	 * @param bundle the bundle
+	 * @param c the c
+	 */
 	private void callActivity(Context ct, Bundle bundle, Class<?> c) {
 		Intent myIntent = new Intent(ct, c);
 		if (bundle != null)
@@ -240,6 +308,11 @@ public class Main extends SignalStrengthActivity {
 		startActivityForResult(myIntent, 0);
 	}
 
+	/**
+	 * Checks if server radiobutton is enabled.
+	 *
+	 * @return true, if server radiobutton is enabled
+	 */
 	private boolean isServerRadiobuttonEnabled() {
 		selectedRadiobuttonId = group.getCheckedRadioButtonId();
 		if (selectedRadiobuttonId == R.id.rd_enable)
@@ -248,6 +321,16 @@ public class Main extends SignalStrengthActivity {
 			return false;
 	}
 
+	/**
+	 * Call location finder service.
+	 *
+	 * @param bluetoothDeviceList the bluetooth device list
+	 * @param largest the largest
+	 * @param activity the activity
+	 * @param uri the uri
+	 * @param isDBSync the is db sync
+	 * @return true, if successful
+	 */
 	private boolean callLocationFinderService(
 			List<BluetoothDeviceModel> bluetoothDeviceList, String largest,
 			Activity activity, String uri, boolean isDBSync) {
@@ -289,7 +372,12 @@ public class Main extends SignalStrengthActivity {
 //		alert.show();
 //		
 //	}
-	private String[] getCoordinate(String val) {
+ /**
+ * Gets the coordinate.
+ * @param val the val
+ * @return the coordinate
+ */
+private String[] getCoordinate(String val) {
 		String[] rtVal = new String[2];
 		String[] address = val.split(" ");
 		String longtitude = address[1];
@@ -299,6 +387,9 @@ public class Main extends SignalStrengthActivity {
 		return rtVal;
 	}
 
+	/* (non-Javadoc)
+	 * @see database.SignalStrengthActivity#onDestroy()
+	 */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -309,6 +400,9 @@ public class Main extends SignalStrengthActivity {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onStart()
+	 */
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -319,6 +413,10 @@ public class Main extends SignalStrengthActivity {
 		enableBluetooth();
 	}
 
+	/**
+	 * Enable bluetooth.
+	 * @return true, if successful
+	 */
 	private boolean enableBluetooth() {
 		if (!mBtAdapter.isEnabled()) {
 			Intent enableIntent = new Intent(
@@ -329,19 +427,25 @@ public class Main extends SignalStrengthActivity {
 		return false;
 	}
 
+	/**
+	 * Sets the service data.
+	 *
+	 * @param info the info
+	 * @param isDBSyncData the is db sync data
+	 */
 	public void setServiceData(Hashtable<DataKeys, Serializable> info,
 			boolean isDBSyncData) {
 		if (!isDBSyncData) {
 			String data = getStringValue(info, DataKeys.message,
 					"No Location Info");
 			if (!data.equals("")) {
-				vibrate.vibrate(milliseconds);
+				vibrator.vibrate(milliseconds);
 //				callActivity(this.getApplicationContext(), null, MollyRenderedActivity.class);
 				locationInfoView.setText(data);
 			}
 			data = "";
 		} else {
-			int rec_count = dbSynchronized(info);
+			int rec_count = synchronizeDB(info);
 			if (rec_count > 0) {
 				progressDialog.dismiss();
 				Toast.makeText(this, rec_count + " record updated",
@@ -354,6 +458,11 @@ public class Main extends SignalStrengthActivity {
 		}
 	}
 
+	/**
+	 * Call local db.
+	 *
+	 * @param v the v
+	 */
 	private void callLocalDB(View v) {
 		LocalKNNMain lkm = new LocalKNNMain();
 		KNNModel km = new KNNModel();
@@ -380,7 +489,7 @@ public class Main extends SignalStrengthActivity {
 		String category = lkm.classifiedQueryInstance(query(), km, 2);
 
 		if (!category.equals("")) {
-			vibrate.vibrate(milliseconds);
+			vibrator.vibrate(milliseconds);
 //			callActivity(v.getContext(), null, MollyRenderedActivity.class);
 			locationInfoView.setText(category);
 		} else {
@@ -389,22 +498,36 @@ public class Main extends SignalStrengthActivity {
 		category = "";
 	}
 
-	private int dbSynchronized(Hashtable<DataKeys, Serializable> info) {
-		int count = 0;
+	/**
+	 * Synchronize db.
+	 *
+	 * @param info the info
+	 * @return the int
+	 */
+	private int synchronizeDB(Hashtable<DataKeys, Serializable> info) {
+		int insertedNewRecords = 0;
 		KNNModel kModel = null;
 		kModel = getKNNModelValue(info, DataKeys.dataList, "message");
 		db.beginTransaction();
 		for (int i = 0; i < kModel.getKnnList().size(); i++) {
 			KNNModel km1 = kModel.getKnnList().get(i);
 			insertToLocalDB(km1);
-			count++;
+			insertedNewRecords++;
 		}
 		kModel.setKnnList(null);
 		db.setTransactionSuccessful();
 		db.endTransaction();
-		return count;
+		return insertedNewRecords;
 	}
 
+	/**
+	 * Gets the string value.
+	 *
+	 * @param up the up
+	 * @param key the key
+	 * @param defaultValue the default value
+	 * @return the string value
+	 */
 	private String getStringValue(Hashtable<DataKeys, Serializable> up,
 			DataKeys key, String defaultValue) {
 		try {
@@ -414,6 +537,14 @@ public class Main extends SignalStrengthActivity {
 		}
 	}
 
+	/**
+	 * Gets the kNN model value.
+	 *
+	 * @param up the up
+	 * @param key the key
+	 * @param defaultValue the default value
+	 * @return the kNN model value
+	 */
 	private KNNModel getKNNModelValue(Hashtable<DataKeys, Serializable> up,
 			DataKeys key, String defaultValue) {
 		try {
@@ -423,6 +554,11 @@ public class Main extends SignalStrengthActivity {
 		}
 	}
 
+	/**
+	 * Gets the latest update date.
+	 *
+	 * @return the latest update date
+	 */
 	private int getLatestUpdateDate() {
 
 		// SQL Query
@@ -442,14 +578,20 @@ public class Main extends SignalStrengthActivity {
 				c.moveToNext();
 				index++;
 			}
-			int j = findLatest(iArray);
+			int j = findLatestRecord(iArray);
 			return iArray[j];
 		} else {
 			return 0;
 		}
 	}
 
-	public int findLatest(int... val) {
+	/**
+	 * Find latest record.
+	 *
+	 * @param val the val
+	 * @return the int
+	 */
+	public int findLatestRecord(int... val) {
 		int largest = val[0];
 		int index = 0;
 		for (int i = 0; i < val.length; i++) {
@@ -464,7 +606,7 @@ public class Main extends SignalStrengthActivity {
 	}
 
 	/**
-	 * Start device discover with the BluetoothAdapter
+	 * Start device discover with the BluetoothAdapter.
 	 */
 	private void doDiscovery() {
 		Log.i(DEBUG_TAG, "Executing doDiscovery..");
@@ -586,15 +728,31 @@ public class Main extends SignalStrengthActivity {
 		}
 	};
 
+	/**
+	 * Gets the bluetooth device info list.
+	 *
+	 * @return the bluetooth device info list
+	 */
 	public List<BluetoothDeviceModel> getBluetoothDeviceInfoList() {
 		return bluetoothDeviceInfoList;
 	}
 
+	/**
+	 * Sets the bluetooth device info list.
+	 *
+	 * @param bluetoothDeviceInfoList the new bluetooth device info list
+	 */
 	public void setBluetoothDeviceInfoList(
 			List<BluetoothDeviceModel> bluetoothDeviceInfoList) {
 		this.bluetoothDeviceInfoList = bluetoothDeviceInfoList;
 	}
 
+	/**
+	 * Calculate time.
+	 *
+	 * @param d the d
+	 * @return the string
+	 */
 	private String calculateTime(Date d) {
 		String second = "";
 		String minute = "";
@@ -612,6 +770,13 @@ public class Main extends SignalStrengthActivity {
 	}
 
 	// check duplicate device
+	/**
+	 * Checks if is duplicate.
+	 *
+	 * @param arryString the arry string
+	 * @param deviceAddress the device address
+	 * @return true, if is duplicate
+	 */
 	private boolean isDuplicate(ArrayAdapter<String> arryString,
 			String deviceAddress) {
 		int len = arryString.getCount();
@@ -626,6 +791,12 @@ public class Main extends SignalStrengthActivity {
 	}
 
 	// check whether device is required one
+	/**
+	 * Required data.
+	 *
+	 * @param name the name
+	 * @return true, if successful
+	 */
 	private boolean requiredData(String name) {
 		if (name.startsWith("+", 0) || name.startsWith("-", 0)) {
 			return true;
@@ -633,6 +804,9 @@ public class Main extends SignalStrengthActivity {
 		return false;
 	}
 
+	/**
+	 * Adds the vectors.
+	 */
 	public void addVectors() {
 		localDBList = new ArrayList<KNNModel>();
 		db.beginTransaction();
@@ -678,6 +852,11 @@ public class Main extends SignalStrengthActivity {
 		}
 	}
 
+	/**
+	 * Insert to local db.
+	 *
+	 * @param km the km
+	 */
 	private void insertToLocalDB(KNNModel km) {
 		ContentValues typeRecordToAdd = new ContentValues();
 		typeRecordToAdd.put(SignalStrength.SIGNAL_STRENGTH1, km.getRoom1());
@@ -690,10 +869,20 @@ public class Main extends SignalStrengthActivity {
 				typeRecordToAdd);
 	}
 
+	/**
+	 * Gets the database.
+	 *
+	 * @return the database
+	 */
 	private void getDatabase() {
 		db = mDatabase.getWritableDatabase();
 	}
 
+	/**
+	 * Query.
+	 *
+	 * @return the list
+	 */
 	public List<KNNModel> query() {
 		List<KNNModel> returnList = new ArrayList<KNNModel>();
 		queryBuilder = new SQLiteQueryBuilder();
@@ -717,6 +906,12 @@ public class Main extends SignalStrengthActivity {
 		return returnList;
 	}
 
+	/**
+	 * Adds the ss vector.
+	 *
+	 * @param ssv the ssv
+	 * @return the kNN model
+	 */
 	private KNNModel addSSVector(SSVector ssv) {
 		kModel = new KNNModel();
 
@@ -730,22 +925,54 @@ public class Main extends SignalStrengthActivity {
 		return kModel;
 	}
 
+	/**
+	 * Sets the sync db list.
+	 *
+	 * @param syncDBList the new sync db list
+	 */
 	public void setSyncDBList(List<KNNModel> syncDBList) {
 		this.syncDBList = syncDBList;
 	}
 
+	/**
+	 * Gets the sync db list.
+	 *
+	 * @return the sync db list
+	 */
 	public List<KNNModel> getSyncDBList() {
 		return syncDBList;
 	}
 
 	// Helper class to encapsulate SSVector information programmatically
+	/**
+	 * The Class SSVector.
+	 */
 	class SSVector {
+		
+		/** The signal strength1. */
 		String signalStrength1;
+		
+		/** The signal strength2. */
 		String signalStrength2;
+		
+		/** The signal strength3. */
 		String signalStrength3;
+		
+		/** The classification. */
 		String classification;
+		
+		/** The date. */
 		String date;
 
+		/**
+		 * Instantiates a new sS vector.
+		 *
+		 * @param signalStrength1 the signal strength1
+		 * @param signalStrength2 the signal strength2
+		 * @param signalStrength3 the signal strength3
+		 * @param classification the classification
+		 * @param date the date
+		 */
 		public SSVector(String signalStrength1, String signalStrength2,
 				String signalStrength3, String classification, String date) {
 			this.signalStrength1 = signalStrength1;

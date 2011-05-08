@@ -2,6 +2,10 @@ package support;
 
 
 /**
+ * @author Nazmul Idris
+ * @version 1.0
+ * @since 3/9/2000,11:54am
+ * 
  * holds constants that are relevant to the whole plugin package.
  */
 public interface ConstantsIF extends MIMETypeConstantsIF {

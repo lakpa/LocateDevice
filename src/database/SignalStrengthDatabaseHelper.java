@@ -4,19 +4,32 @@ import database.SignalStrengthDatabase.SignalStrength;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 /**
- * This class handles the creation and versioning of the application database
+ * @author lakpa
+ * This class handles the creation and versioning of the application database.
  */
 
 public class SignalStrengthDatabaseHelper extends SQLiteOpenHelper {
 
+	/** The Constant DATABASE_NAME. */
 	private static final String DATABASE_NAME = "dissertation.db";
+	
+	/** The Constant DATABASE_VERSION. */
 	private static final int DATABASE_VERSION = 1;
 	
+	/**
+	 * Instantiates a new signal strength database helper.
+	 *
+	 * @param context the context
+	 */
 	public SignalStrengthDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.database.sqlite.SQLiteOpenHelper#onCreate(android.database.sqlite.SQLiteDatabase)
+	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 	
@@ -28,6 +41,9 @@ public class SignalStrengthDatabaseHelper extends SQLiteOpenHelper {
 				+ SignalStrength.DATE_STAMP+" INTEGER);");
 	}
 
+	/* (non-Javadoc)
+	 * @see android.database.sqlite.SQLiteOpenHelper#onUpgrade(android.database.sqlite.SQLiteDatabase, int, int)
+	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// Housekeeping here.
@@ -37,6 +53,9 @@ public class SignalStrengthDatabaseHelper extends SQLiteOpenHelper {
 		// Your call.
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.database.sqlite.SQLiteOpenHelper#onOpen(android.database.sqlite.SQLiteDatabase)
+	 */
 	@Override
 	public void onOpen(SQLiteDatabase db) {
 		super.onOpen(db);

@@ -1,6 +1,9 @@
 package support;
 
 /**
+ * @author Nazmul Idris
+ * @version 1.0
+ * 
  * ConstantsIF contains various constants used in the clienthelper and EmailServlet impl of the mail
  * service. 
  * 

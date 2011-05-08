@@ -4,30 +4,26 @@ import java.io.*;
 
 
 /**
+ * @author Nazmul Idris
+ * @version 1.0
+ * 
  * <B>ByteBuffer</B> is a container for bytes. A ByteBuffer is to bytes, what a StringBuffer is to
  * Strings.
  * <p/>
 */
 public class ByteBuffer
-    implements ConstantsIF, Serializable
-{
+    implements ConstantsIF, Serializable {
 
 static final long serialVersionUID = 7401588019652180668L;
 
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // constants
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 public static final int BUFFER_SIZE = 4096;
 
-//
 // Data Members
-//
 protected byte[] byteRay = null;
 protected String enc = DEFAULT_CHAR_ENCODING;
 
-//
 // constructors
-//
 public ByteBuffer() {
 }
 

@@ -1,11 +1,9 @@
 package com.dissertation.project;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -14,8 +12,16 @@ import android.widget.TextView;
 import database.SignalStrengthActivity;
 import database.SignalStrengthDatabase.SignalStrength;
 
+/**
+ * @author lakpa
+ * The Class LocalDBResultActivity.
+ */
+
 public class LocalDBResultActivity extends SignalStrengthActivity {
 	
+	/* (non-Javadoc)
+	 * @see database.SignalStrengthActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -24,6 +30,9 @@ public class LocalDBResultActivity extends SignalStrengthActivity {
 		
 	}
 	
+	/**
+	 * Fill ss list.
+	 */
 	public void fillSSList() {
 		// TableLayout where we want to Display List
 		final TableLayout ssTable = (TableLayout) findViewById(R.id.TableLayout_SSList);
@@ -104,6 +113,11 @@ public class LocalDBResultActivity extends SignalStrengthActivity {
 	}
 	
 	
+	/**
+	 * Delete ss record.
+	 *
+	 * @param id the id
+	 */
 	public void deleteSSRecord(Integer id)
 	{
         SQLiteDatabase db = mDatabase.getWritableDatabase();
@@ -111,5 +125,4 @@ public class LocalDBResultActivity extends SignalStrengthActivity {
         db.delete(SignalStrength.SIGNAL_STRENGTH_TABLE_NAME, SignalStrength._ID + "=?",astrArgs );
         db.close();
 	}
-
 }

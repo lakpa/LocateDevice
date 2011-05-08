@@ -4,16 +4,20 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 
+/**
+ * @author lakpa
+ * The Class MollyRenderedActivity.
+ */
 public class MollyRenderedActivity extends Activity {
-//	private WebView browser = null;
-	
-	@Override
+	/* (non-Javadoc)
+ * @see android.app.Activity#onCreate(android.os.Bundle)
+ */
+@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		WebView webview = new WebView(this);
-		 setContentView(webview);
-//		browser = (WebView) findViewById(R.id.webKit);
+		setContentView(webview);
 		webview.loadUrl("http://192.168.1.5:8000/search/?q=beginning");
-//		webview.loadUrl("http://www.google.com");
+
 	}
 }

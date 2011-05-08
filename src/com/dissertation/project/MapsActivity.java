@@ -6,16 +6,29 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
+
+/**
+ * @author lakpa
+ * The Class MapsActivity.
+ */
 public class MapsActivity extends MapActivity {
 
+	/** The map view. */
 	private MapView mapView;
 
+	/* (non-Javadoc)
+	 * @see com.google.android.maps.MapActivity#isRouteDisplayed()
+	 */
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
 
-	/** Called when the activity is first created. */
+	/**
+	 * Called when the activity is first created.
+	 *
+	 * @param savedInstanceState the saved instance state
+	 */
    	@Override
     public void onCreate(Bundle savedInstanceState)
     {
