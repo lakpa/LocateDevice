@@ -440,8 +440,10 @@ private String[] getCoordinate(String val) {
 					"No Location Info");
 			if (!data.equals("")) {
 				vibrator.vibrate(milliseconds);
-//				callActivity(this.getApplicationContext(), null, MollyRenderedActivity.class);
-				locationInfoView.setText(data);
+				Bundle bundle = new Bundle();
+				bundle.putString("location_info", data);
+				callActivity(this.getApplicationContext(), bundle, MollyRenderedActivity.class);
+//				locationInfoView.setText(data);
 			}
 			data = "";
 		} else {
@@ -490,7 +492,9 @@ private String[] getCoordinate(String val) {
 
 		if (!category.equals("")) {
 			vibrator.vibrate(milliseconds);
-//			callActivity(v.getContext(), null, MollyRenderedActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putString("location_info", category);
+			callActivity(this.getApplicationContext(), bundle, MollyRenderedActivity.class);
 			locationInfoView.setText(category);
 		} else {
 			locationInfoView.setText("No Location Info");
