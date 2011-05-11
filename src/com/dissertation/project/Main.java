@@ -168,8 +168,9 @@ public class Main extends SignalStrengthActivity {
 		}
 
 		getDatabase();
-
-		// addVectors();
+                
+                // loaded local db with data
+		addVectors();
 
 		locationInfoView = (TextView) findViewById(R.id.locationInfoView);
 
@@ -214,8 +215,8 @@ public class Main extends SignalStrengthActivity {
 
 			public void onClick(View arg0) {
 				locationInfoView.setText("");
-//				getBluetoothDeviceInfoList().clear();
-				staticData();
+
+				staticData();   // use it for testing with static data
 				// check which radio button is enable
 				if (isServerRadiobuttonEnabled()) {
 					callLocationFinderService(getBluetoothDeviceInfoList(),
@@ -275,7 +276,9 @@ public class Main extends SignalStrengthActivity {
 	 * Static data.
 	 */
 	private void staticData() {
-		// Remove it
+                // clear the list
+                getBluetoothDeviceInfoList().clear();
+	
 		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("62",
 		"00:19:0E:08:08:B7")); // room1
 		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("48",
