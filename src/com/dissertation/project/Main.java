@@ -214,9 +214,9 @@ public class Main extends SignalStrengthActivity {
 
 			public void onClick(View arg0) {
 				locationInfoView.setText("");
-//				getBluetoothDeviceInfoList().clear();
 				staticData();
-				// check which radio button is enable
+				
+//				 check which radio button is enable
 				if (isServerRadiobuttonEnabled()) {
 					callLocationFinderService(getBluetoothDeviceInfoList(),
 							null, Main.this, serviceUri + "/finder", false);
@@ -259,7 +259,7 @@ public class Main extends SignalStrengthActivity {
 					// fileNumber++;
 					doDiscovery();
 				} else {
-					new AlertDialog.Builder(Main.this)
+					new AlertDialog.Builder(getParent())
 							.setTitle("Bluetooth state message")
 							.setMessage(
 									"Bluetooth is not enabled\nWould you like to enable it?")
@@ -274,13 +274,15 @@ public class Main extends SignalStrengthActivity {
 	/**
 	 * Static data.
 	 */
+	
 	private void staticData() {
+		getBluetoothDeviceInfoList().clear();
 		// Remove it
-		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("62",
-		"00:19:0E:08:08:B7")); // room1
 		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("48",
+		"00:19:0E:08:08:B7")); // room1
+		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("51",
 				"00:19:0E:08:04:EA")); // room2
-		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("56",
+		bluetoothDeviceInfoList.add(new BluetoothDeviceModel("71",
 				"00:19:0E:08:06:F6")); // room3
 	}
 
@@ -442,8 +444,8 @@ private String[] getCoordinate(String val) {
 				vibrator.vibrate(milliseconds);
 				Bundle bundle = new Bundle();
 				bundle.putString("location_info", data);
-				callActivity(this.getApplicationContext(), bundle, MollyRenderedActivity.class);
-//				locationInfoView.setText(data);
+//				callActivity(this.getApplicationContext(), bundle, MollyRenderedActivity.class);
+				locationInfoView.setText(data);
 			}
 			data = "";
 		} else {
@@ -494,7 +496,7 @@ private String[] getCoordinate(String val) {
 			vibrator.vibrate(milliseconds);
 			Bundle bundle = new Bundle();
 			bundle.putString("location_info", category);
-			callActivity(this.getApplicationContext(), bundle, MollyRenderedActivity.class);
+//			callActivity(this.getApplicationContext(), bundle, MollyRenderedActivity.class);
 			locationInfoView.setText(category);
 		} else {
 			locationInfoView.setText("No Location Info");
@@ -616,8 +618,6 @@ private String[] getCoordinate(String val) {
 		Log.i(DEBUG_TAG, "Executing doDiscovery..");
 		if (D)
 			Log.d(TAG, "doDiscovery()");
-		// Indicate scanning in the title
-		// setProgressBarIndeterminateVisibility(true);
 
 		// If we're already discovering, stop it
 		if (mBtAdapter.isDiscovering()) {
