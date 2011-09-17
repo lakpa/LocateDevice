@@ -628,7 +628,7 @@ private String[] getCoordinate(String val) {
 		if (mBtAdapter.startDiscovery()) {
 			// now = new Date();
 			// startingTime = calculateTime(now);
-			progressDialog = ProgressDialog.show(this, "Device scan",
+			progressDialog = ProgressDialog.show(getParent(), "Device scan",
 					"Scanning device....please wait!");
 			scanButton.setEnabled(false);
 		}
